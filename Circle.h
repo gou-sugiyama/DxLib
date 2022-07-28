@@ -1,11 +1,13 @@
 #pragma once
+#include"Object.h"
+#define D_COLOR_WHITE 255,255,255
+#define D_COLOR_ORANGE 255,128,0
 #define D_CIRCLE_RAD 5.0f
-class CCircle
+class CCircle :public CObject
 {
 private:
-	//ピボット位置
-	float x;
-	float y;
+	//色
+	int col;
 
 	//半径
 	float radius;
@@ -16,7 +18,10 @@ private:
 public:
 	CCircle();
 	~CCircle();
-	void Update();
-	void Render();
+	void Update()override;
+	void Render()const override;
+
+	void HitAction()override;
+	void ReleaseAction()override;
 };
 

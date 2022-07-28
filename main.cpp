@@ -1,15 +1,20 @@
 #include"DxLib.h"
 #include"Circle.h"
+#include"Square.h"
+#include"Object.h"
+
 /***********************************************
  * プログラムの開始
  ***********************************************/
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	LPSTR lpCmdLine, int nCmdShow) {
+	LPSTR lpCmdLine, int nCmdShow) 
+{
 
 	XINPUT_STATE input;
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
 	CCircle circle;
+	CSquare square;
 
 	// タイトルを test に変更
 	SetMainWindowText("オブジェクト研究");
@@ -33,8 +38,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		ClearDrawScreen();
 
 		GetJoypadXInputState(DX_INPUT_PAD1, &input);
+		
+		square.Update();
+		square.Render();
 		circle.Update();
 		circle.Render();
+		CheckOverLap(&circle, &square);
 
 		ScreenFlip();			// 裏画面の内容を表画面に反映
 	}
