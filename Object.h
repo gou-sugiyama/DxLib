@@ -10,12 +10,18 @@ protected:
 	float height = 0;
 	float width = 0;
 
+	//”»’è—p•Ï”
+	bool oldHitFlg = false;
+	bool nowHitFlg = false;
+
 public:
 	virtual void Update() = 0;
 	virtual void Render()const = 0;
+	void UpdateFlg() { oldHitFlg = nowHitFlg; }
 
 	//“–‚½‚Á‚½‚Ìˆ—
 	virtual void HitAction() = 0;
+	virtual void OverLapAction() {}
 	virtual void ReleaseAction() = 0;
 
 	//getŠÖ”
@@ -23,6 +29,11 @@ public:
 	float GetY()const { return y; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
+	bool GetOldHitFlg()const { return oldHitFlg; }
+	bool GetNowHitFlg()const { return nowHitFlg; }
+
+	//setŠÖ”
+	void SetNowFlg(bool flg) { nowHitFlg = flg; }
 };
 
 bool CheckOverLap(CObject* obj1, CObject* obj2);

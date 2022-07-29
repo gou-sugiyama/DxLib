@@ -22,6 +22,7 @@ public:
 	void Render()const override;
 
 	void HitAction()override;
+	void OverLapAction()override;
 	void ReleaseAction()override;
 };
 

@@ -14,22 +14,64 @@ float absf(void* num)
 }
 
 //--------------------------
-// 判定 矩形が重なっていたら
+// 判定 
 //--------------------------
 bool CheckOverLap(CObject* obj1, CObject* obj2)
 {
+	//old, nowの更新
+	obj1->UpdateFlg();
+	obj2->UpdateFlg();
+
 	//必要な情報の準備
 	float distanceX = obj1->GetX() - obj2->GetX();
 	float distanceY = obj1->GetY() - obj2->GetY();
 	float rangeX = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
 	float rangeY = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
 
-	if (absf(&distanceX) <= rangeX && absf(&distanceY) <= rangeY) 
+	//-------------------------------
+	// 	当たった瞬間
+	//-------------------------------
+	if (obj1->GetOldHitFlg() == false 
+		&& obj2->GetOldHitFlg() == false
+		&&absf(&distanceX) <= rangeX 
+		&& absf(&distanceY) <= rangeY) 
 	{
+		obj1->SetNowFlg(true);
+		obj2->SetNowFlg(true);
+
 		obj1->HitAction();
 		obj2->HitAction();
 
 		return true;
+	}
+	//------------------------------
+	//	重なっている間
+	//------------------------------
+	else if(obj1->GetOldHitFlg() == true 
+		&& obj2->GetOldHitFlg() == true
+		&& absf(&distanceX) <= rangeX
+		&& absf(&distanceY) <= rangeY)
+	{
+		obj1->OverLapAction();
+		obj2->OverLapAction();
+	}
+	else //それ以外は当たっていない(false)
+	{
+		obj1->SetNowFlg(false);
+		obj2->SetNowFlg(false);
+	}
+
+
+	//-----------------
+	//  離れたとき
+	//-----------------
+	if (obj1->GetOldHitFlg() == true
+		&& obj2->GetOldHitFlg() == true
+		&& obj1->GetNowHitFlg() == false
+		&& obj2->GetNowHitFlg() == false)
+	{
+		obj1->ReleaseAction();
+		obj2->ReleaseAction();
 	}
 
 	return false;
