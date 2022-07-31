@@ -1,4 +1,5 @@
 #pragma once
+class CCircle;
 class CObject
 {
 protected:
@@ -38,4 +39,4 @@ public:
 
 //‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 bool CheckHitBox(CObject* obj1, CObject* obj2);
-bool CheckHitBox_Circle(CObject* box,CObject* circle);
+bool CheckHitBox_Circle(CObject* box, CCircle* circle);

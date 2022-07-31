@@ -24,5 +24,7 @@ public:
 	void HitAction()override;
 	void OverLapAction()override;
 	void ReleaseAction()override;
+
+	float GetRadius()const{ return radius; }
 };
 

@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		square.Render();
 		circle.Update();
 		circle.Render();
-		CheckHitBox(&circle, &square);
+		CheckHitBox_Circle(&square, &circle);
 
 		ScreenFlip();			// — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f
 	}

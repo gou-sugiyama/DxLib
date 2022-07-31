@@ -1,4 +1,5 @@
 #include "Object.h"
+#include"math.h"
 #include"Circle.h"
 
 //-------------------------
@@ -77,9 +78,45 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 	return false;
 }
 
+#include"DxLib.h"
 //--------------------------------
 // 円と矩形の当たり判定
 //--------------------------------
-bool CheckHitBox_Circle(CObject* box, CObject* circle) {
+bool CheckHitBox_Circle(CObject* box, CCircle* circle) 
+{
+	//必要な情報の準備
+	float diagonal = (box->GetHeight() / 2) * (box->GetHeight() / 2)
+						+ (box->GetWidth() / 2) * (box->GetWidth() / 2);
+	float distance = (box->GetX() - circle->GetX()) * (box->GetX() - circle->GetX())
+						+ (box->GetY() - circle->GetY()) * (box->GetY() - circle->GetY());
 
+	DrawFormatString(0, 20 * 4, 0xFFFFFF, "%.1lf",sqrt(diagonal)+ circle->GetRadius());
+	DrawFormatString(0, 20 * 5, 0xFFFFFF, "%.1lf", sqrt(distance) );
+
+	if (sqrt(distance) <= (sqrt(diagonal) + circle->GetRadius())) 
+	{
+		return CheckHitBox(box, circle);
+	}
+	else
+	{
+		//old, nowの更新
+		box->UpdateFlg();
+		circle->UpdateFlg();
+
+		box->SetNowFlg(false);
+		circle->SetNowFlg(false);
+	}
+
+	//-----------------
+	//  離れたとき
+	//-----------------
+	if (box->GetOldHitFlg() == true
+		&& circle->GetOldHitFlg() == true
+		&& box->GetNowHitFlg() == false
+		&& circle->GetNowHitFlg() == false)
+	{
+		box->ReleaseAction();
+		circle->ReleaseAction();
+	}
+	return false;
 }
