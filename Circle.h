@@ -2,7 +2,7 @@
 #include"Object.h"
 #define D_COLOR_WHITE 255,255,255
 #define D_COLOR_ORANGE 255,128,0
-#define D_CIRCLE_RAD 5.0f
+#define D_CIRCLE_RAD 20.0f
 class CCircle :public CObject
 {
 private:

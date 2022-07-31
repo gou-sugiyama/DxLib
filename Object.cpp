@@ -14,9 +14,9 @@ float absf(void* num)
 }
 
 //--------------------------
-// 判定 
+// 矩形と矩形の当たり判定 
 //--------------------------
-bool CheckOverLap(CObject* obj1, CObject* obj2)
+bool CheckHitBox(CObject* obj1, CObject* obj2)
 {
 	//old, nowの更新
 	obj1->UpdateFlg();
@@ -75,4 +75,11 @@ bool CheckOverLap(CObject* obj1, CObject* obj2)
 	}
 
 	return false;
+}
+
+//--------------------------------
+// 円と矩形の当たり判定
+//--------------------------------
+bool CheckHitBox_Circle(CObject* box, CObject* circle) {
+
 }

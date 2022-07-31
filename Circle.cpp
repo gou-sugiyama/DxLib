@@ -38,7 +38,7 @@ void CCircle::Update()
 //----------------------
 void CCircle::Render()const 
 {
-	DrawCircleAA(x, y, radius, 10, col);
+	DrawCircleAA(x, y, radius, 20, col);
 }
 
 //----------------------

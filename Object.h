@@ -36,4 +36,6 @@ public:
 	void SetNowFlg(bool flg) { nowHitFlg = flg; }
 };
 
-bool CheckOverLap(CObject* obj1, CObject* obj2);
+//‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
+bool CheckHitBox(CObject* obj1, CObject* obj2);
+bool CheckHitBox_Circle(CObject* box,CObject* circle);
