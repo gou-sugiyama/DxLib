@@ -144,4 +144,5 @@ bool CheckHitCircle(CObject* obj1, CObject* obj2)
 	}
 	
 	return false;
+
 }
