@@ -1,4 +1,5 @@
 #pragma once
+class CCircle;
 class CObject
 {
 protected:

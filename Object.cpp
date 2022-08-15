@@ -1,5 +1,7 @@
 #include"DxLib.h"
 #include "Object.h"
+#include"math.h"
+#include"Circle.h"
 #include<math.h>
 
 //-------------------------
@@ -78,13 +80,34 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 	return false;
 }
 
+#include"DxLib.h"
 //--------------------------------
 // ‰~‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 //--------------------------------
-bool CheckHitBox_Circle(CObject* box, CObject* circle) {
-	return true;
-}
+bool CheckHitBox_Circle(CObject* box, CCircle* circle) 
+{
+	//•K—v‚Èî•ñ‚Ì€”õ
+	float diagonal = (box->GetHeight() / 2) * (box->GetHeight() / 2)
+						+ (box->GetWidth() / 2) * (box->GetWidth() / 2);
+	float distance = (box->GetX() - circle->GetX()) * (box->GetX() - circle->GetX())
+						+ (box->GetY() - circle->GetY()) * (box->GetY() - circle->GetY());
 
+	DrawFormatString(0, 20 * 4, 0xFFFFFF, "%.1lf",sqrt(diagonal)+ circle->GetRadius());
+	DrawFormatString(0, 20 * 5, 0xFFFFFF, "%.1lf", sqrt(distance) );
+
+	if (sqrt(distance) <= (sqrt(diagonal) + circle->GetRadius())) 
+	{
+		return CheckHitBox(box, circle);
+	}
+	else
+	{
+		//old, now‚ÌXV
+		box->UpdateFlg();
+		circle->UpdateFlg();
+
+		box->SetNowFlg(false);
+		circle->SetNowFlg(false);
+	}
 //--------------------------
 // ‰~‚Æ‰~‚Ì“–‚½‚è”»’è 
 //--------------------------
@@ -112,6 +135,18 @@ bool CheckHitCircle(CObject* obj1, CObject* obj2)
 		obj1->HitAction();
 		obj2->HitAction();
 
+	//-----------------
+	//  —£‚ê‚½‚Æ‚«
+	//-----------------
+	if (box->GetOldHitFlg() == true
+		&& circle->GetOldHitFlg() == true
+		&& box->GetNowHitFlg() == false
+		&& circle->GetNowHitFlg() == false)
+	{
+		box->ReleaseAction();
+		circle->ReleaseAction();
+	}
+	return false;
 		return true;
 	}
 	//------------------------------
