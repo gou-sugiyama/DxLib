@@ -39,3 +39,4 @@ public:
 //‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);
+bool CheckHitCircle(CObject* obj1, CObject* obj2);

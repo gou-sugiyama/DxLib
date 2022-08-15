@@ -16,6 +16,21 @@ CCircle::CCircle()
 	isClick = false;
 }
 
+//---------------------------
+// 引数付きコンストラクタ
+//---------------------------
+CCircle::CCircle(float x, float y,float radius )
+{
+	col = GetColor(D_COLOR_WHITE);
+	this->x = x;
+	this->y = y;
+	this->radius = radius;
+	height = radius * 2;
+	width = radius * 2;
+
+	isClick = false;
+}
+
 //-----------------------------
 // デストラクタ
 //-----------------------------

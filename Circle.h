@@ -17,6 +17,7 @@ private:
 
 public:
 	CCircle();
+	CCircle(float x, float y, float radius);
 	~CCircle();
 	void Update()override;
 	void Render()const override;

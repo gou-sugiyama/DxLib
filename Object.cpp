@@ -1,5 +1,6 @@
+#include"DxLib.h"
 #include "Object.h"
-#include"Circle.h"
+#include<math.h>
 
 //-------------------------
 // â‘Î’l‚ð‹‚ß‚é
@@ -81,5 +82,66 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 // ‰~‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
 //--------------------------------
 bool CheckHitBox_Circle(CObject* box, CObject* circle) {
+	return true;
+}
 
+//--------------------------
+// ‰~‚Æ‰~‚Ì“–‚½‚è”»’è 
+//--------------------------
+bool CheckHitCircle(CObject* obj1, CObject* obj2)
+{
+	//old, now‚ÌXV
+	obj1->UpdateFlg();
+	obj2->UpdateFlg();
+
+	//•K—v‚Èî•ñ‚Ì€”õ
+	float distance = pow(double(obj1->GetX()) - double(obj2->GetX()), 2.0)
+						+ pow(double(obj1->GetY()) - double(obj2->GetY()), 2.0);
+	float range = pow(double(obj1->GetWidth() / 2) + double(obj2->GetWidth() / 2), 2.0);
+
+	//-------------------------------
+	// 	“–‚½‚Á‚½uŠÔ
+	//-------------------------------
+	if (obj1->GetOldHitFlg() == false
+		&& obj2->GetOldHitFlg() == false
+		&& distance <= range)
+	{
+		obj1->SetNowFlg(true);
+		obj2->SetNowFlg(true);
+
+		obj1->HitAction();
+		obj2->HitAction();
+
+		return true;
+	}
+	//------------------------------
+	//	d‚È‚Á‚Ä‚¢‚éŠÔ
+	//------------------------------
+	else if (obj1->GetOldHitFlg() == true
+		&& obj2->GetOldHitFlg() == true
+		&& distance <= range)
+	{
+		obj1->OverLapAction();
+		obj2->OverLapAction();
+	}
+	else //‚»‚êˆÈŠO‚Í“–‚½‚Á‚Ä‚¢‚È‚¢(false)
+	{
+		obj1->SetNowFlg(false);
+		obj2->SetNowFlg(false);
+	}
+
+
+	//-----------------
+	//  —£‚ê‚½‚Æ‚«
+	//-----------------
+	if (obj1->GetOldHitFlg() == true
+		&& obj2->GetOldHitFlg() == true
+		&& obj1->GetNowHitFlg() == false
+		&& obj2->GetNowHitFlg() == false)
+	{
+		obj1->ReleaseAction();
+		obj2->ReleaseAction();
+	}
+	
+	return false;
 }
