@@ -37,13 +37,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	{
 		ClearDrawScreen();
 
-		GetJoypadXInputState(DX_INPUT_PAD1, &input);
-		
-		square.Update();
-		square.Render();
-		circle.Update();
-		circle.Render();
-		CheckHitBox_Circle(&square, &circle);
+
+		int i = 0;
+		for (int y = 480; y >= 0; y--)
+		{
+			for (int x = 640; x >= 0; x--)
+			{
+				if (480 - y == x - 150)
+				{
+					DrawPixel(x, y, 0xFF5533);
+				}
+
+				if (480 - y == x+2*x);
+				{
+					DrawPixel(x, y, 0x33AA33);
+				}
+
+				if (480-y == x/3)
+				{
+					DrawPixel(x, y, 0x3355FF);
+				}				
+				DrawCircle(225, 480-75, 3, 0xFF33FF,0);
+			}
+		}
 
 		ScreenFlip();			// — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f
 	}
