@@ -21,13 +21,15 @@ public:
 	void UpdateFlg() { oldHitFlg = nowHitFlg; }
 
 	//“–‚½‚Á‚½Žž‚Ìˆ—
-	virtual void HitAction() = 0;
+	virtual void HitAction(){}
 	virtual void OverLapAction() {}
-	virtual void ReleaseAction() = 0;
+	virtual void ReleaseAction(){}
 
 	//getŠÖ”
 	float GetX()const { return x; }
 	float GetY()const { return y; }
+	void SetX(float x) { this->x = x; }
+	void SetY(float y) { this->y = y; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
 	bool GetOldHitFlg()const { return oldHitFlg; }
@@ -41,3 +43,5 @@ public:
 bool CheckHitBox(CObject* obj1, CObject* obj2);
 bool CheckHitBox_Circle(CObject* box,CObject* circle);
 bool CheckHitCircle(CObject* obj1, CObject* obj2);
+
+void PreventOverlapBox(CObject* obj1, CObject* obj2);

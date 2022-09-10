@@ -44,8 +44,20 @@ void CCircle::Update()
 	int mouseX = 0;
 	int mouseY = 0;
 	GetMousePoint(&mouseX, &mouseY);
-	x = (float)mouseX;
+	if (isClick == true)
+	{
+		y++;
+	}
+	else
+	{
 	y = (float)mouseY;
+	}
+		x = (float)mouseX;
+
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+	{
+		isClick = true;
+	}
 }
 
 //----------------------
@@ -54,6 +66,12 @@ void CCircle::Update()
 void CCircle::Render()const 
 {
 	DrawCircleAA(x, y, radius, 20, col);
+	
+	{
+		int i = 0;
+		DrawFormatString(0, 150 + i++ * 20, 0x22FF88, "x:%lf", x);
+		DrawFormatString(0, 150 + i++ * 20, 0x22FF88, "y:%lf", y);
+	}
 }
 
 //----------------------

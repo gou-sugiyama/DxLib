@@ -40,10 +40,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		GetJoypadXInputState(DX_INPUT_PAD1, &input);
 		
 		square.Update();
-		square.Render();
 		circle.Update();
-		circle.Render();
 		CheckHitBox_Circle(&square, &circle);
+		PreventOverlapBox(&circle, &square);
+		square.Render();
+		circle.Render();
 
 		ScreenFlip();			// — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f
 	}
