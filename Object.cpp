@@ -82,7 +82,62 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 // 円と矩形の当たり判定
 //--------------------------------
 bool CheckHitBox_Circle(CObject* box, CObject* circle) {
-	return true;
+
+	//old, nowの更新
+	box->UpdateFlg();
+	circle->UpdateFlg();
+
+	//必要な情報の準備
+	float distance = pow(double(box->GetX()) - double(circle->GetX()), 2.0)
+		+ pow(double(box->GetY()) - double(circle->GetY()), 2.0);
+	float range = pow(double(box->GetWidth() / 2) + double(circle->GetWidth() / 2), 2.0);
+
+	//-------------------------------
+	// 	当たった瞬間
+	//-------------------------------
+	if (box->GetOldHitFlg() == false
+		&& circle->GetOldHitFlg() == false
+		&& distance <= range)
+	{
+		box->SetNowFlg(true);
+		circle->SetNowFlg(true);
+
+		box->HitAction();
+		circle->HitAction();
+
+		return true;
+	}
+	//------------------------------
+	//	重なっている間
+	//------------------------------
+	else if (box->GetOldHitFlg() == true
+		&& circle->GetOldHitFlg() == true
+		&& distance <= range)
+	{
+		box->OverLapAction();
+		circle->OverLapAction();
+	}
+	else //それ以外は当たっていない(false)
+	{
+		box->SetNowFlg(false);
+		circle->SetNowFlg(false);
+	}
+
+
+	//-----------------
+	//  離れたとき
+	//-----------------
+	if (box->GetOldHitFlg() == true
+		&& circle->GetOldHitFlg() == true
+		&& box->GetNowHitFlg() == false
+		&& circle->GetNowHitFlg() == false)
+	{
+		box->ReleaseAction();
+		circle->ReleaseAction();
+	}
+
+	return false;
+
 }
 
 //--------------------------
