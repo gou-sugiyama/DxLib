@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		square.Update();
 		circle.Update();
 		CheckHitBox_Circle(&square, &circle);
-		PreventOverlapBox(&circle, &square);
+		PreventOverlapCircle_Box(&circle, &square);
 		square.Render();
 		circle.Render();
 

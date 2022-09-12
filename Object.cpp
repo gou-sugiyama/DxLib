@@ -223,3 +223,57 @@ void PreventOverlapBox(CObject* obj1, CObject* obj2)
 	}
 
 }
+
+//--------------------------------------
+// 円と矩形の重なりを防ぐ
+// （円のクラスが動く）
+//--------------------------------------
+void PreventOverlapCircle_Box(CObject* circle, CObject* box)
+{
+	//必要な情報の準備
+	float radius = circle->GetHeight() / 2;
+	float distanceX = circle->GetX() - box->GetX();
+	float distanceY = circle->GetY() - box->GetY();
+	float rangeX = radius + box->GetWidth() / 2;
+	float rangeY = radius + box->GetHeight() / 2;
+
+
+	if (absf(&distanceX) < rangeX
+		&& absf(&distanceY) < rangeY)
+	{
+		if (circle->GetX() < box->GetX() - (box->GetWidth() / 2))
+		{
+			circle->AddX(-(rangeX - absf(&distanceX)));
+			distanceX += rangeX - absf(&distanceX);
+		}
+		else if (circle->GetX() > box->GetX() + (box->GetWidth() / 2))
+		{
+			circle->AddX(rangeX - absf(&distanceX));
+			distanceX += rangeX - absf(&distanceX);
+		}
+		else
+		{
+			;
+		}
+	}
+
+	if (absf(&distanceX) < rangeX
+		&& absf(&distanceY) < rangeY)
+	{
+		if (circle->GetY() < box->GetY() - (box->GetHeight() / 2))
+		{
+			circle->AddY(-(rangeY - absf(&distanceY)));
+			distanceY += rangeY - absf(&distanceY);
+		}
+		else if (circle->GetY() > box->GetY() + (box->GetHeight() / 2))
+		{
+			circle->AddY(rangeY - absf(&distanceY));
+			distanceY += rangeY - absf(&distanceY);
+		}
+		else
+		{
+			;
+		}
+	}
+
+}
