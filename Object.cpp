@@ -241,19 +241,25 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 	if (absf(&distanceX) < rangeX
 		&& absf(&distanceY) < rangeY)
 	{
-		if (circle->GetX() < box->GetX() - (box->GetWidth() / 2))
+		if (circle->GetY() > box->GetY() - (box->GetHeight() / 2) + radius
+			&& circle->GetY() < box->GetY() + (box->GetHeight() / 2) - radius)
 		{
-			circle->AddX(-(rangeX - absf(&distanceX)));
-			distanceX += rangeX - absf(&distanceX);
-		}
-		else if (circle->GetX() > box->GetX() + (box->GetWidth() / 2))
-		{
-			circle->AddX(rangeX - absf(&distanceX));
-			distanceX += rangeX - absf(&distanceX);
-		}
-		else
-		{
-			;
+			if (circle->GetX() < box->GetX() - (box->GetWidth() / 2))
+			{
+				DrawString(0, 0, "debug", 0xFF9457);
+				circle->AddX(-(rangeX - absf(&distanceX)));
+				distanceX += rangeX - absf(&distanceX);
+			}
+			else if (circle->GetX() > box->GetX() + (box->GetWidth() / 2))
+			{
+				DrawString(0, 0, "debug", 0xFF9457);
+				circle->AddX(rangeX - absf(&distanceX));
+				distanceX += rangeX - absf(&distanceX);
+			}
+			else
+			{
+				;
+			}
 		}
 	}
 
