@@ -46,13 +46,13 @@ void CCircle::Update()
 	GetMousePoint(&mouseX, &mouseY);
 	if (isClick == true)
 	{
-		y++;
+		x++;
 	}
 	else
 	{
-	y = (float)mouseY;
-	}
 		x = (float)mouseX;
+	}
+	y = (float)mouseY;
 
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
 	{
@@ -71,6 +71,15 @@ void CCircle::Render()const
 		int i = 0;
 		DrawFormatString(0, 150 + i++ * 20, 0x22FF88, "x:%lf", x);
 		DrawFormatString(0, 150 + i++ * 20, 0x22FF88, "y:%lf", y);
+
+		int mouseX;
+		int mouseY;
+		GetMousePoint(&mouseX, &mouseY);
+		//mouse
+		DrawFormatString(0, 150 + i++ * 20, 0x2288FF,
+			"Mouse:x:%d",mouseX );
+		DrawFormatString(0, 150 + i++ * 20, 0x2288FF,
+			"Mousey:%d", mouseY);
 	}
 }
 

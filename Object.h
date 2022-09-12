@@ -29,7 +29,9 @@ public:
 	float GetX()const { return x; }
 	float GetY()const { return y; }
 	void SetX(float x) { this->x = x; }
+	void AddX(float x) { this->x += x; }
 	void SetY(float y) { this->y = y; }
+	void AddY(float y) { this->y += y; }
 	float GetHeight()const { return height; }
 	float GetWidth()const { return width; }
 	bool GetOldHitFlg()const { return oldHitFlg; }

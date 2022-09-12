@@ -182,32 +182,83 @@ void PreventOverlapBox(CObject* obj1, CObject* obj2)
 	float rangeX = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
 	float rangeY = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
 
-	//Õ“Ë‚µ‚Ä‚¢‚½ê‡
-	if ( absf(&distanceY) <= rangeY)
+	//if (absf(&distanceX) <= rangeX)
+	//{
+	//	float overlap = rangeX - absf(&distanceX);
+	//	obj1->AddX(-overlap);
+	//}
+
+
+	if (absf(&distanceX) < rangeX
+		&& absf(&distanceY) < rangeY)
 	{
-		if (obj1->GetX() <= obj2->GetX() - (obj2->GetWidth() / 2))
+		if (obj1->GetX() < obj2->GetX() - (obj2->GetWidth() / 2))
 		{
-			obj1->SetX(obj2->GetX() - rangeX);
+			//obj1->SetX(obj2->GetX() - rangeX);
+			obj1->AddX(-(rangeX - absf(&distanceX)));
+			distanceX += rangeX - absf(&distanceX);
 		}
-		else if(obj1->GetX() >= obj2->GetX() + (obj2->GetWidth() / 2))
+		else if (obj1->GetX() > obj2->GetX() + (obj2->GetWidth() / 2))
 		{
-			obj1->SetX(obj2->GetX() + rangeX);
+			obj1->AddX(rangeX - absf(&distanceX));
+			distanceX += rangeX - absf(&distanceX);
 		}
 		else
 		{
-			obj1->SetX(obj1->GetX());
+			;
 		}
 	}
 
-	if (absf(&distanceX) <= rangeX)
+	if (absf(&distanceX) < rangeX
+		&& absf(&distanceY) < rangeY)
 	{
 		if (obj1->GetY() < obj2->GetY() - (obj2->GetHeight() / 2))
 		{
-			obj1->SetY(obj2->GetY() - rangeY);
+			obj1->AddY(-(rangeY - absf(&distanceY)));
+			distanceY += rangeY - absf(&distanceY);
+		}
+		else if (obj1->GetY() > obj2->GetY() + (obj2->GetHeight() / 2))
+		{
+			obj1->AddY(rangeY - absf(&distanceY));
+			distanceY += rangeY - absf(&distanceY);
 		}
 		else
 		{
-			obj1->SetY(obj2->GetY() + rangeY);
+			;
 		}
 	}
+
+
+
+
+	//Õ“Ë‚µ‚Ä‚¢‚½ê‡
+	//if (absf(&distanceX) <= rangeX
+	//	&& absf(&distanceY) <= rangeY)
+	//{
+	//	if (obj1->GetX() <= obj2->GetX() - (obj2->GetWidth() / 2))
+	//	{
+	//		//obj1->SetX(obj2->GetX() - rangeX);
+	//		obj1->AddX(rangeX - absf(&distanceX));
+	//	}
+	//	else if(obj1->GetX() >= obj2->GetX() + (obj2->GetWidth() / 2))
+	//	{
+	//		obj1->SetX(obj2->GetX() + rangeX);
+	//	}
+	//	else
+	//	{
+	//		obj1->SetX(obj1->GetX());
+	//	}
+	//}
+
+	//if (absf(&distanceX) <= rangeX)
+	//{
+	//	if (obj1->GetY() < obj2->GetY() - (obj2->GetHeight() / 2))
+	//	{
+	//		obj1->SetY(obj2->GetY() - rangeY);
+	//	}
+	//	else
+	//	{
+	//		obj1->SetY(obj2->GetY() + rangeY);
+	//	}
+	//}
 }
