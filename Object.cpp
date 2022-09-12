@@ -171,7 +171,7 @@ bool CheckHitCircle(CObject* obj1, CObject* obj2)
 }
 
 //--------------------------------------
-// オブジェクトの重なりを防ぐ
+// 矩形と矩形の重なりを防ぐ
 // （引数１のクラスが動く）
 //--------------------------------------
 void PreventOverlapBox(CObject* obj1, CObject* obj2)
@@ -181,12 +181,6 @@ void PreventOverlapBox(CObject* obj1, CObject* obj2)
 	float distanceY = obj1->GetY() - obj2->GetY();
 	float rangeX = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
 	float rangeY = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
-
-	//if (absf(&distanceX) <= rangeX)
-	//{
-	//	float overlap = rangeX - absf(&distanceX);
-	//	obj1->AddX(-overlap);
-	//}
 
 
 	if (absf(&distanceX) < rangeX
@@ -228,37 +222,4 @@ void PreventOverlapBox(CObject* obj1, CObject* obj2)
 		}
 	}
 
-
-
-
-	//衝突していた場合
-	//if (absf(&distanceX) <= rangeX
-	//	&& absf(&distanceY) <= rangeY)
-	//{
-	//	if (obj1->GetX() <= obj2->GetX() - (obj2->GetWidth() / 2))
-	//	{
-	//		//obj1->SetX(obj2->GetX() - rangeX);
-	//		obj1->AddX(rangeX - absf(&distanceX));
-	//	}
-	//	else if(obj1->GetX() >= obj2->GetX() + (obj2->GetWidth() / 2))
-	//	{
-	//		obj1->SetX(obj2->GetX() + rangeX);
-	//	}
-	//	else
-	//	{
-	//		obj1->SetX(obj1->GetX());
-	//	}
-	//}
-
-	//if (absf(&distanceX) <= rangeX)
-	//{
-	//	if (obj1->GetY() < obj2->GetY() - (obj2->GetHeight() / 2))
-	//	{
-	//		obj1->SetY(obj2->GetY() - rangeY);
-	//	}
-	//	else
-	//	{
-	//		obj1->SetY(obj2->GetY() + rangeY);
-	//	}
-	//}
 }
