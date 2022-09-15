@@ -5,9 +5,9 @@
 //-------------------------
 // 絶対値を求める
 //-------------------------
-float absf(void* num) 
+float absf(void* num)
 {
-	if(*(float*)num<0)
+	if (*(float*)num < 0)
 	{
 		*(float*)num = *(float*)num * -1;
 	}
@@ -32,10 +32,10 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 	//-------------------------------
 	// 	当たった瞬間
 	//-------------------------------
-	if (obj1->GetOldHitFlg() == false 
+	if (obj1->GetOldHitFlg() == false
 		&& obj2->GetOldHitFlg() == false
-		&&absf(&distanceX) <= rangeX 
-		&& absf(&distanceY) <= rangeY) 
+		&& absf(&distanceX) <= rangeX
+		&& absf(&distanceY) <= rangeY)
 	{
 		obj1->SetNowFlg(true);
 		obj2->SetNowFlg(true);
@@ -48,7 +48,7 @@ bool CheckHitBox(CObject* obj1, CObject* obj2)
 	//------------------------------
 	//	重なっている間
 	//------------------------------
-	else if(obj1->GetOldHitFlg() == true 
+	else if (obj1->GetOldHitFlg() == true
 		&& obj2->GetOldHitFlg() == true
 		&& absf(&distanceX) <= rangeX
 		&& absf(&distanceY) <= rangeY)
@@ -119,7 +119,7 @@ bool CheckHitCircle(CObject* obj1, CObject* obj2)
 
 	//必要な情報の準備
 	float distance = pow(double(obj1->GetX()) - double(obj2->GetX()), 2.0)
-						+ pow(double(obj1->GetY()) - double(obj2->GetY()), 2.0);
+		+ pow(double(obj1->GetY()) - double(obj2->GetY()), 2.0);
 	float range = pow(double(obj1->GetWidth() / 2) + double(obj2->GetWidth() / 2), 2.0);
 
 	//-------------------------------
@@ -165,7 +165,7 @@ bool CheckHitCircle(CObject* obj1, CObject* obj2)
 		obj1->ReleaseAction();
 		obj2->ReleaseAction();
 	}
-	
+
 	return false;
 
 }
@@ -237,49 +237,91 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 	float rangeX = radius + box->GetWidth() / 2;
 	float rangeY = radius + box->GetHeight() / 2;
 
+	//必要な情報の準備
+	float diagonal = (box->GetHeight() / 2) * (box->GetHeight() / 2)
+		+ (box->GetWidth() / 2) * (box->GetWidth() / 2);
+	float distance = (box->GetX() - circle->GetX()) * (box->GetX() - circle->GetX())
+		+ (box->GetY() - circle->GetY()) * (box->GetY() - circle->GetY());
 
-	if (absf(&distanceX) < rangeX
-		&& absf(&distanceY) < rangeY)
+
+	if (radius * radius + diagonal > distance)
 	{
-		if (circle->GetY() > box->GetY() - (box->GetHeight() / 2) + radius
-			&& circle->GetY() < box->GetY() + (box->GetHeight() / 2) - radius)
+		if (absf(&distanceX) < rangeX
+			&& absf(&distanceY) < rangeY)
 		{
-			if (circle->GetX() < box->GetX() - (box->GetWidth() / 2))
+			//矩形同士がめり込んでいた場合、変数を用意する
+			float leftPosX = box->GetX() - (box->GetWidth() / 2);
+			float rightPosX = box->GetX() + (box->GetWidth() / 2);
+			float upperPosY = box->GetY() - (box->GetHeight() / 2);
+			float lowerPosY = box->GetY() + (box->GetHeight() / 2);
+
+
+			//左上
+			if (circle->GetY() < upperPosY
+				&& circle->GetX() < leftPosX)
+			{
+				//処理を軽くするため、根号は判定後に取る。
+				distanceX = leftPosX - circle->GetX();
+				distanceY = upperPosY - circle->GetY();
+				float distance = distanceX * distanceX + distanceY * distanceY;
+
+				if (radius * radius > distance)
+				{
+					DrawString(0, 0, "coner", 0x94FF57);
+					distance = sqrt((double)distance);
+					distance = distance - radius;
+					circle->AddX(distanceX / radius * distance);
+				}
+
+			}
+			else
+			{
+				//左下
+				DrawString(0, 0, "coner", 0x94FF57);
+			}
+			if (circle->GetY() < box->GetY())
+			{
+				//右上
+				DrawString(0, 0, "coner", 0x94FF57);
+			}
+			else
+			{
+				//右下
+				DrawString(0, 0, "coner", 0x94FF57);
+			}
+
+			//boxより左側か、右側か
+			if (circle->GetX() < leftPosX)
 			{
 				DrawString(0, 0, "debug", 0xFF9457);
 				circle->AddX(-(rangeX - absf(&distanceX)));
-				distanceX += rangeX - absf(&distanceX);
 			}
-			else if (circle->GetX() > box->GetX() + (box->GetWidth() / 2))
+			else if (circle->GetX() > rightPosX)
 			{
 				DrawString(0, 0, "debug", 0xFF9457);
 				circle->AddX(rangeX - absf(&distanceX));
-				distanceX += rangeX - absf(&distanceX);
 			}
 			else
 			{
 				;
 			}
+
+			//上側か、下側か
+			if (circle->GetY() < upperPosY)
+			{
+				DrawString(0, 0, "debug", 0xFF9457);
+				circle->AddY(-(rangeY - absf(&distanceY)));
+			}
+			else if (circle->GetY() > lowerPosY)
+			{
+				DrawString(0, 0, "debug", 0xFF9457);
+				circle->AddY(rangeY - absf(&distanceY));
+			}
+			else
+			{
+				;
+			}
+
 		}
 	}
-
-	if (absf(&distanceX) < rangeX
-		&& absf(&distanceY) < rangeY)
-	{
-		if (circle->GetY() < box->GetY() - (box->GetHeight() / 2))
-		{
-			circle->AddY(-(rangeY - absf(&distanceY)));
-			distanceY += rangeY - absf(&distanceY);
-		}
-		else if (circle->GetY() > box->GetY() + (box->GetHeight() / 2))
-		{
-			circle->AddY(rangeY - absf(&distanceY));
-			distanceY += rangeY - absf(&distanceY);
-		}
-		else
-		{
-			;
-		}
-	}
-
 }

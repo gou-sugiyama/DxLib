@@ -1,5 +1,6 @@
 #pragma once
 #include"Object.h"
+#define D_SPEED 2
 #define D_COLOR_WHITE 255,255,255
 #define D_COLOR_ORANGE 255,128,0
 #define D_CIRCLE_RAD 20.0f
