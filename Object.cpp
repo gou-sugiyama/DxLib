@@ -244,10 +244,9 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 		+ (box->GetY() - circle->GetY()) * (box->GetY() - circle->GetY());
 
 
-	if (radius * radius + diagonal > distance)
+	if (sqrt(distance) <= (sqrt(diagonal) + radius))
 	{
-		if (absf(&distanceX) < rangeX
-			&& absf(&distanceY) < rangeY)
+		if (absf(&distanceX) < rangeX && absf(&distanceY) < rangeY)
 		{
 			//矩形同士がめり込んでいた場合、変数を用意する
 			float leftPosX = box->GetX() - (box->GetWidth() / 2);
@@ -260,38 +259,67 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 			if (circle->GetY() < upperPosY
 				&& circle->GetX() < leftPosX)
 			{
-				//処理を軽くするため、根号は判定後に取る。
-				distanceX = leftPosX - circle->GetX();
-				distanceY = upperPosY - circle->GetY();
-				float distance = distanceX * distanceX + distanceY * distanceY;
 
-				if (radius * radius > distance)
+				float vx = leftPosX - circle->GetX();
+				float vy = upperPosY - circle->GetY();
+				float len = vx * vx + vy * vy;
+				len = sqrt(len);
+
+				if (radius > len)
 				{
-					DrawString(0, 0, "coner", 0x94FF57);
-					distance = sqrt((double)distance);
-					distance = distance - radius;
-					circle->AddX(distanceX / radius * distance);
+
+					circle->AddX(vx / len * (len - radius));
+					circle->AddY(vy / len * (len - radius));
 				}
 
-			}
-			else
+			}//左下
+			else if (circle->GetY() > lowerPosY
+				&& circle->GetX() < leftPosX)
 			{
-				//左下
-				DrawString(0, 0, "coner", 0x94FF57);
-			}
-			if (circle->GetY() < box->GetY())
-			{
-				//右上
-				DrawString(0, 0, "coner", 0x94FF57);
-			}
-			else
-			{
-				//右下
-				DrawString(0, 0, "coner", 0x94FF57);
-			}
+				float vx = leftPosX - circle->GetX();
+				float vy = lowerPosY - circle->GetY();
+				float len = vx * vx + vy * vy;
+				len = sqrt(len);
 
-			//boxより左側か、右側か
-			if (circle->GetX() < leftPosX)
+				if (radius > len)
+				{
+
+					circle->AddX(vx / len * (len - radius));
+					circle->AddY(vy / len * (len - radius));
+				}
+
+			}//右上
+			else if (circle->GetY() < upperPosY
+				&& circle->GetX() > rightPosX)
+			{
+				float vx = rightPosX - circle->GetX();
+				float vy = upperPosY - circle->GetY();
+				float len = vx * vx + vy * vy;
+				len = sqrt(len);
+
+				if (radius > len)
+				{
+					circle->AddX(vx / len * (len - radius));
+					circle->AddY(vy / len * (len - radius));
+				}
+
+			}//右下
+			else if (circle->GetY() > lowerPosY
+				&& circle->GetX() > rightPosX)
+			{
+				float vx = rightPosX - circle->GetX();
+				float vy = lowerPosY - circle->GetY();
+				float len = vx * vx + vy * vy;
+				len = sqrt(len);
+
+				if (radius > len)
+				{
+					circle->AddX(vx / len * (len - radius));
+					circle->AddY(vy / len * (len - radius));
+				}
+
+			}//boxより左側か、右側か
+			else if (circle->GetX() < leftPosX)
 			{
 				DrawString(0, 0, "debug", 0xFF9457);
 				circle->AddX(-(rangeX - absf(&distanceX)));
@@ -300,14 +328,9 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 			{
 				DrawString(0, 0, "debug", 0xFF9457);
 				circle->AddX(rangeX - absf(&distanceX));
-			}
-			else
-			{
-				;
-			}
 
-			//上側か、下側か
-			if (circle->GetY() < upperPosY)
+			}//上側か、下側か
+			else if (circle->GetY() < upperPosY)
 			{
 				DrawString(0, 0, "debug", 0xFF9457);
 				circle->AddY(-(rangeY - absf(&distanceY)));

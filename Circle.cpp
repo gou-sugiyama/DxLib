@@ -46,7 +46,7 @@ void CCircle::Update()
 	GetMousePoint(&mouseX, &mouseY);
 	if (isClick == true)
 	{
-		x++;
+		x+=2;
 	}
 	else
 	{
