@@ -13,8 +13,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	XINPUT_STATE input;
 	GetJoypadXInputState(DX_INPUT_PAD1, &input);
 
-	CCircle circle;
-	CSquare square;
+	CCircle circle1;
+	circle1.SetisMovable();
+	CCircle circle2(320,240,100);
 
 	// タイトルを test に変更
 	SetMainWindowText("オブジェクト研究");
@@ -39,12 +40,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 		GetJoypadXInputState(DX_INPUT_PAD1, &input);
 		
-		square.Update();
-		circle.Update();
-		CheckHitBox_Circle(&square, &circle);
-		PreventOverlapCircle_Box(&circle, &square);
-		square.Render();
-		circle.Render();
+		circle2.Update();
+		circle1.Update();
+		CheckHitCircle(&circle2, &circle1);
+		PreventOverlapCircle(&circle1, &circle2);
+		circle2.Render();
+		circle1.Render();
 
 		ScreenFlip();			// 裏画面の内容を表画面に反映
 	}

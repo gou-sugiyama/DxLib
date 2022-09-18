@@ -14,6 +14,7 @@ CCircle::CCircle()
 	width = radius * 2;
 
 	isClick = false;
+	isMovable = false;
 }
 
 //---------------------------
@@ -29,6 +30,7 @@ CCircle::CCircle(float x, float y,float radius )
 	width = radius * 2;
 
 	isClick = false;
+	isMovable = false;
 }
 
 //-----------------------------
@@ -41,22 +43,30 @@ CCircle::~CCircle(){}
 //----------------------------
 void CCircle::Update()
 {
-	int mouseX = 0;
-	int mouseY = 0;
-	GetMousePoint(&mouseX, &mouseY);
-	if (isClick == true)
+	if (isMovable)
 	{
-		x+=2;
-	}
-	else
-	{
-		x = (float)mouseX;
-	}
-	y = (float)mouseY;
+		int mouseX = 0;
+		int mouseY = 0;
+		GetMousePoint(&mouseX, &mouseY);
+		if (isClick == true)
+		{
+			x += 2;
+		}
+		else
+		{
+			x = (float)mouseX;
+		y = (float)mouseY;
+		}
 
-	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
-	{
-		isClick = true;
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0)
+		{
+			isClick = true;
+		}
+
+		if ((GetMouseInput() & MOUSE_INPUT_RIGHT) != 0)
+		{
+			isClick = false;
+		}
 	}
 }
 

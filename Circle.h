@@ -13,6 +13,8 @@ private:
 	//”¼Œa
 	float radius;
 
+	bool isMovable;
+
 	//ƒNƒŠƒbƒN‚µ‚Ä‚¢‚é‚©
 	bool isClick;
 
@@ -28,5 +30,7 @@ public:
 	void ReleaseAction()override;
 
 	float GetRadius()const{ return radius; }
+
+	void SetisMovable() { isMovable = true; }
 };
 

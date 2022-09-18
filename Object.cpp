@@ -348,3 +348,28 @@ void PreventOverlapCircle_Box(CObject* circle, CObject* box)
 		}
 	}
 }
+
+//-----------------------------
+// ‚ß‚èž‚Ý–h‚¬‚Ü‚·
+// ˆø”1‚ª“®‚«‚Ü‚·
+//-----------------------------
+void PreventOverlapCircle(CObject* obj1, CObject* obj2)
+{
+	//•K—v‚Èî•ñ‚Ì€”õ
+	float vx = obj2->GetX() - obj1->GetX();
+	float vy = obj2->GetY() - obj1->GetY();
+	float len = vx * vx + vy * vy;
+	float range = pow(double(obj1->GetWidth() / 2) + double(obj2->GetWidth() / 2), 2.0);
+	if (range >= len)
+	{
+		range = sqrt(range);
+		len = sqrt(len);
+
+		if (len != 0)
+		{
+			obj1->AddX(vx / len * (len - range));
+			obj1->AddY(vy / len * (len - range));
+		}
+
+	}
+}
